@@ -1,4 +1,4 @@
-[AirBnB] (assets/hbnb_logo.png)
+![AirBnB](assets/hbnb_logo.png)
 ---
 # Ahbnb
 
