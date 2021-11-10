@@ -2,24 +2,16 @@
 """A module that implements the BaseModel class"""
 import cmd
 from uuid import uuid4
-from datetime import datetime, timezone
+from datetime import datetime
 
 
 class BaseModel(cmd.Cmd):
     """A class that defines all common attributes/methods for other classes"""
 
     def __init__(self):
-        """Initialize the BaseModel class
+        """Initialize the BaseModel class"""
 
-        Args:
-            id (str): an assigned id when the instance is created.
-            created_at (datetime): the datetime object representing
-            when an instance is created.
-            updated_at (datetime): the datetime object representing when an
-            instance is created and it will be updated everything the object
-            is changed.
-        """
-
+        super().__init__()
         self.id = str(uuid4())
         self.created_at = self.updated_at = datetime.now()
 
@@ -42,11 +34,9 @@ class BaseModel(cmd.Cmd):
         object
         """
 
-        for attr in ["created_at", "updated_at"]:
-            if attr in self.__dict__:
-                self.__dict__[attr] = self.__dict__[attr].isoformat()
-        attr_set = {k: v for k, v in self.__dict__.items()
+        attr_set = {k: v for k, v in vars(self).items()
                     if not k.startswith("_")}
         attr_set["__class__"] = type(self).__name__
-
+        attr_set["created_at"] = attr_set["created_at"].isoformat()
+        attr_set["updated_at"] = attr_set["updated_at"].isoformat()
         return attr_set
