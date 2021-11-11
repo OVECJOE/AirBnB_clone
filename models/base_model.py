@@ -7,7 +7,7 @@ from datetime import datetime
 from models import storage
 
 
-class BaseModel(cmd.Cmd):
+class BaseModel:
     """A class that defines all common attributes/methods for other classes"""
 
     def __init__(self, *args, **kwargs):
@@ -44,7 +44,8 @@ class BaseModel(cmd.Cmd):
         object
         """
 
-        attr_set = self.__dict__.copy()
+        attr_set = {k: v for k, v in self.__dict__.items()
+                    if not k.startswith('_')}
         attr_set["__class__"] = type(self).__name__
         attr_set["created_at"] = attr_set["created_at"].isoformat()
         attr_set["updated_at"] = attr_set["updated_at"].isoformat()
