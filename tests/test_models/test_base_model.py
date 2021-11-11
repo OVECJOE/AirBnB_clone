@@ -2,12 +2,18 @@
 """A module that contains the test suite for the BaseModel class"""
 import unittest
 from datetime import datetime
+from uuid import uuid4
 
 from models.base_model import BaseModel
 
 
 class TestBaseModel(unittest.TestCase):
     """The test suite for models.base_model.BaseModel"""
+
+    def test_if_BaseModel_instance_has_id(self):
+        """Checks that instance has an id assigned on initialization"""
+        b = BaseModel()
+        self.assertTrue(hasattr(b, "id"))
 
     def test_str_representation(self):
         """Checks if the string representation is appropriate"""
@@ -48,11 +54,6 @@ class TestBaseModel(unittest.TestCase):
         self.assertGreater(b.updated_at.microsecond,
                            b.created_at.microsecond, "Greater!")
 
-    def test_BaseModel_object_fails_when_arg_is_passed(self):
-        """Checks a BaseModel obj fails if 1 or more arguments is passed"""
-        with self.assertRaises(TypeError):
-            b = BaseModel(None)
-
     def test_if_to_dict_returns_dict(self):
         """Checks if BaseModel.to_dict() returns a dict object"""
         b = BaseModel()
@@ -79,3 +80,31 @@ class TestBaseModel(unittest.TestCase):
         partial_expectation = {k: v for k, v in b.__dict__.items()
                                if not k.startswith("_")}
         self.assertEqual(len(b.to_dict()), len(partial_expectation) + 1)
+
+    def test_when_kwargs_passed_is_empty(self):
+        """Checks that id, created_at and updated_at are automatically generated
+        if they're not in kwargs"""
+        my_dict = {}
+        b = BaseModel(**my_dict)
+        self.assertTrue(type(b.id) is str)
+        self.assertTrue(type(b.created_at) is datetime)
+        self.assertTrue(type(b.updated_at) is datetime)
+
+    def test_when_kwargs_passed_is_not_empty(self):
+        """Checks that id, created_at and updated_at are created from kwargs"""
+        my_dict = {"id": uuid4(), "created_at": datetime.utcnow().isoformat(),
+                   "updated_at": datetime.utcnow().isoformat()}
+        b = BaseModel(**my_dict)
+        self.assertEqual(b.id, my_dict["id"])
+        self.assertEqual(b.created_at, datetime.strptime(my_dict["created_at"],
+                                                         "%Y-%m-%dT%H:%M:%S.%f"))
+        self.assertEqual(b.updated_at, datetime.strptime(my_dict["updated_at"],
+                                                         "%Y-%m-%dT%H:%M:%S.%f"))
+
+    def test_when_kwargs_passed_is_more_than_default(self):
+        """Checks BaseModel does not break when kwargs contains more than
+        the default attributes"""
+        my_dict = {"id": uuid4(), "created_at": datetime.utcnow().isoformat(),
+                   "updated_at": datetime.utcnow().isoformat(), "name": "Firdaus"}
+        b = BaseModel(**my_dict)
+        self.assertTrue(hasattr(b, "name"))

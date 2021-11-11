@@ -8,6 +8,10 @@
 
 **AhBnB** is a *complete web application*, integrating database storage, a back-end API, and front-end interface.
 
+### Data Diagram
+
+![data_diagram](assets/data_diagram.jpg)
+
 ## CONTRIBUTION
 
 To contribute to this project:
@@ -16,4 +20,4 @@ To contribute to this project:
 - `cd AirBnB_clone`,
 - Create a branch to isolate changes and prevent possible complications... This can be done using `git branch <your choice name>`,
 - checkout into the branch created above using the command `git checkout <your choice name>`,
-- You are free to change the world now :smile:. Goodluck!
+- You are free to change the world now :smile:. Good Luck!

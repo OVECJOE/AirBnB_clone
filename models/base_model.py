@@ -8,12 +8,18 @@ from datetime import datetime
 class BaseModel(cmd.Cmd):
     """A class that defines all common attributes/methods for other classes"""
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """Initialize the BaseModel class"""
 
         super().__init__()
         self.id = str(uuid4())
         self.created_at = self.updated_at = datetime.now()
+
+        for k, v in kwargs.items():
+            if k == "created_at" or k == "updated_at":
+                v = datetime.strptime(v, "%Y-%m-%dT%H:%M:%S.%f")
+            if k != "__class__":
+                setattr(self, k, v)
 
     def __str__(self):
         """Returns the string representation of BaseModel object."""
@@ -34,8 +40,7 @@ class BaseModel(cmd.Cmd):
         object
         """
 
-        attr_set = {k: v for k, v in vars(self).items()
-                    if not k.startswith("_")}
+        attr_set = self.__dict__.copy()
         attr_set["__class__"] = type(self).__name__
         attr_set["created_at"] = attr_set["created_at"].isoformat()
         attr_set["updated_at"] = attr_set["updated_at"].isoformat()
