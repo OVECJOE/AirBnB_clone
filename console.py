@@ -5,6 +5,11 @@ import cmd
 import models
 from models.base_model import BaseModel
 
+# A global constant since both functions within and outside uses it.
+CLASSES = [
+    "BaseModel",
+]
+
 
 def check_args(args):
     """checks if args is valid
@@ -15,15 +20,11 @@ def check_args(args):
     Returns:
         Error message if args is None or not a valid class, else the arguments
     """
-    __classes = [
-        "BaseModel",
-    ]
-
     arg_list = args.split()
 
     if len(arg_list) == 0:
         print("** class name missing **")
-    elif arg_list[0] not in __classes:
+    elif arg_list[0] not in CLASSES:
         print("** class doesn't exist **")
     else:
         return arg_list
@@ -32,6 +33,7 @@ def check_args(args):
 class HBNBCommand(cmd.Cmd):
     """The class that implements the console for the AirBnB clone web application"""
     prompt = "(hbnb) "
+    storage = models.storage
 
     def emptyline(self):
         """Command to executed when empty line + <ENTER> key"""
@@ -51,7 +53,7 @@ class HBNBCommand(cmd.Cmd):
         and prints the id"""
         if (args := check_args(argv)) is not None:
             print(eval(args[0])().id)
-            models.storage.save()
+            self.storage.save()
 
     def do_show(self, argv: str):
         """Prints the string representation of an instance based
@@ -61,10 +63,41 @@ class HBNBCommand(cmd.Cmd):
                 print("** instance id missing **")
             else:
                 key = f"{args[0]}.{args[1]}"
-                if key not in models.storage.all():
+                if key not in self.storage.all():
                     print("** no instance found **")
                 else:
-                    print(models.storage.all()[key])
+                    print(self.storage.all()[key])
+
+    def do_all(self, argv: str):
+        """Prints all string representation of all instances based or not
+        based on the class name"""
+        arg_list = argv.split()
+        objects = self.storage.all().values()
+        if not arg_list:
+            print([str(obj) for obj in objects])
+        else:
+            if arg_list[0] not in CLASSES:
+                print("** class doesn't exist **")
+            else:
+                print([str(obj) for obj in objects
+                       if arg_list[0] in str(obj)])
+
+    def do_destroy(self, argv: str):
+        """Delete a class instance based on the name and given id."""
+        arg_list = argv.split()
+        if len(arg_list) == 0:
+            print("** class name missing **")
+        elif arg_list[0] not in CLASSES:
+            print("** class doesn't exist **")
+        elif len(arg_list) == 1:
+            print("** instance id missing **")
+        else:
+            key = "{}.{}".format(arg_list[0], arg_list[1])
+            if key in self.storage.all():
+                del self.storage.all()[key]
+                self.storage.save()
+            else:
+                print("** no instance found **")
 
 
 if __name__ == "__main__":
