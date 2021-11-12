@@ -84,20 +84,16 @@ class HBNBCommand(cmd.Cmd):
 
     def do_destroy(self, argv: str):
         """Delete a class instance based on the name and given id."""
-        arg_list = argv.split()
-        if len(arg_list) == 0:
-            print("** class name missing **")
-        elif arg_list[0] not in CLASSES:
-            print("** class doesn't exist **")
-        elif len(arg_list) == 1:
-            print("** instance id missing **")
-        else:
-            key = "{}.{}".format(arg_list[0], arg_list[1])
-            if key in self.storage.all():
-                del self.storage.all()[key]
-                self.storage.save()
+        if (arg_list := check_args(argv)) is not None:
+            if len(arg_list) == 1:
+                print("** instance id missing **")
             else:
-                print("** no instance found **")
+                key = "{}.{}".format(*arg_list)
+                if key in self.storage.all():
+                    del self.storage.all()[key]
+                    self.storage.save()
+                else:
+                    print("** no instance found **")
 
 
 if __name__ == "__main__":
