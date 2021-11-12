@@ -44,18 +44,18 @@ class HBNBCommand(cmd.Cmd):
         print("")
         return True
 
-    def do_quit(self, status: int):
+    def do_quit(self, argv):
         """When executed, exits the console."""
         return True
 
-    def do_create(self, argv: str):
+    def do_create(self, argv):
         """Creates a new instance of BaseModel, saves it (to a JSON file)
         and prints the id"""
         if (args := check_args(argv)) is not None:
             print(eval(args[0])().id)
             self.storage.save()
 
-    def do_show(self, argv: str):
+    def do_show(self, argv):
         """Prints the string representation of an instance based
         on the class name and id"""
         if (args := check_args(argv)) is not None:
@@ -68,7 +68,7 @@ class HBNBCommand(cmd.Cmd):
                 else:
                     print(self.storage.all()[key])
 
-    def do_all(self, argv: str):
+    def do_all(self, argv):
         """Prints all string representation of all instances based or not
         based on the class name"""
         arg_list = argv.split()
@@ -82,7 +82,7 @@ class HBNBCommand(cmd.Cmd):
                 print([str(obj) for obj in objects
                        if arg_list[0] in str(obj)])
 
-    def do_destroy(self, argv: str):
+    def do_destroy(self, argv):
         """Delete a class instance based on the name and given id."""
         if (arg_list := check_args(argv)) is not None:
             if len(arg_list) == 1:
@@ -94,6 +94,28 @@ class HBNBCommand(cmd.Cmd):
                     self.storage.save()
                 else:
                     print("** no instance found **")
+
+    def do_update(self, argv):
+        """Updates an instance based on the class name and id by adding or
+        updating attribute and save it to the JSON file."""
+        if (arg_list := check_args(argv)) is not None:
+            if len(arg_list) == 1:
+                print("** instance id missing **")
+            else:
+                instance_id = "{}.{}".format(arg_list[0], arg_list[1])
+                if instance_id in self.storage.all():
+                    if len(arg_list) == 2:
+                        print("** attribute name missing **")
+                    elif len(arg_list) == 3:
+                        print("** value missing **")
+                    else:
+                        obj = self.storage.all()[instance_id]
+                        if arg_list[2] in type(obj).__dict__:
+                            v_type = type(obj.__class__.__dict__[arg_list[2]])
+                            setattr(obj, arg_list[2], v_type(arg_list[3]))
+                        else:
+                            setattr(obj, arg_list[2], arg_list[3])
+            self.storage.save()
 
 
 if __name__ == "__main__":
