@@ -4,6 +4,7 @@ import unittest
 from datetime import datetime
 from uuid import uuid4
 
+import models
 from models.base_model import BaseModel
 
 
@@ -82,8 +83,8 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(len(b.to_dict()), len(partial_expectation) + 1)
 
     def test_when_kwargs_passed_is_empty(self):
-        """Checks that id, created_at and updated_at are automatically generated
-        if they're not in kwargs"""
+        """Checks that id, created_at and updated_at are automatically
+        generated if they're not in kwargs"""
         my_dict = {}
         b = BaseModel(**my_dict)
         self.assertTrue(type(b.id) is str)
@@ -96,15 +97,32 @@ class TestBaseModel(unittest.TestCase):
                    "updated_at": datetime.utcnow().isoformat()}
         b = BaseModel(**my_dict)
         self.assertEqual(b.id, my_dict["id"])
-        self.assertEqual(b.created_at, datetime.strptime(my_dict["created_at"],
-                                                         "%Y-%m-%dT%H:%M:%S.%f"))
-        self.assertEqual(b.updated_at, datetime.strptime(my_dict["updated_at"],
-                                                         "%Y-%m-%dT%H:%M:%S.%f"))
+        self.assertEqual(b.created_at,
+                         datetime.strptime(my_dict["created_at"],
+                                           "%Y-%m-%dT%H:%M:%S.%f"))
+        self.assertEqual(b.updated_at,
+                         datetime.strptime(my_dict["updated_at"],
+                                           "%Y-%m-%dT%H:%M:%S.%f"))
 
     def test_when_kwargs_passed_is_more_than_default(self):
         """Checks BaseModel does not break when kwargs contains more than
         the default attributes"""
         my_dict = {"id": uuid4(), "created_at": datetime.utcnow().isoformat(),
-                   "updated_at": datetime.utcnow().isoformat(), "name": "Firdaus"}
+                   "updated_at": datetime.utcnow().isoformat(),
+                   "name": "Firdaus"}
         b = BaseModel(**my_dict)
         self.assertTrue(hasattr(b, "name"))
+
+    def test_new_method_not_called_when_dict_obj_is_passed_to_BaseModel(self):
+        """Test that storage.new() is not called when a BaseModel obj is
+        created from a dict object"""
+        my_dict = {"id": uuid4(), "created_at": datetime.utcnow().isoformat(),
+                   "updated_at": datetime.utcnow().isoformat(),
+                   "name": "Firdaus"}
+        b = BaseModel(**my_dict)
+        self.assertTrue(b not in models.storage.all().values(),
+                        f"{models.storage.all().values()}")
+        del b
+
+        b = BaseModel()
+        self.assertTrue(b in models.storage.all().values())

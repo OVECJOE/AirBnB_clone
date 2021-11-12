@@ -1,10 +1,9 @@
 #!/usr/bin/python3
 """A module that implements the BaseModel class"""
-import cmd
 from uuid import uuid4
 from datetime import datetime
 
-from models import storage
+import models
 
 
 class BaseModel:
@@ -16,6 +15,9 @@ class BaseModel:
         super().__init__()
         self.id = str(uuid4())
         self.created_at = self.updated_at = datetime.now()
+
+        if not kwargs:
+            models.storage.new(self)
 
         for k, v in kwargs.items():
             if k == "created_at" or k == "updated_at":
@@ -31,8 +33,7 @@ class BaseModel:
     def save(self):
         """Updates 'self.updated_at' with the current datetime"""
         self.updated_at = datetime.now()
-        storage.new(self)
-        storage.save()
+        models.storage.save()
 
     def to_dict(self):
         """returns a dictionary containing all keys/values of __dict__

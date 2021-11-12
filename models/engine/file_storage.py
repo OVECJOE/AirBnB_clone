@@ -2,6 +2,8 @@
 """Contains the FileStorage class"""
 import json
 
+from models.base_model import BaseModel
+
 
 class FileStorage:
     """serializes instances to a JSON file and deserializes JSON file"""
@@ -31,3 +33,4 @@ class FileStorage:
                     self.new(eval(obj["__class__"])(**obj))
         except FileNotFoundError:
             pass
+

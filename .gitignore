@@ -131,3 +131,4 @@ dmypy.json
 # Our defined ignore
 main_test*.py
 .idea/
+file.json
