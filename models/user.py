@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """Implements the user's model"""
-import models
 from models.base_model import BaseModel
 
 
