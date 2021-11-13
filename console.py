@@ -1,15 +1,26 @@
 #!/usr/bin/python3
 """contains the entry point of the command interpreter"""
 import cmd
+from shlex import split
 
 import models
 from models.base_model import BaseModel
 from models.user import User
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.state import State
+from models.review import Review
 
 # A global constant since both functions within and outside uses it.
 CLASSES = [
     "BaseModel",
     "User",
+    "City",
+    "Place",
+    "State",
+    "Amenity",
+    "Review"
 ]
 
 
@@ -22,7 +33,7 @@ def check_args(args):
     Returns:
         Error message if args is None or not a valid class, else the arguments
     """
-    arg_list = args.split()
+    arg_list = split(args)
 
     if len(arg_list) == 0:
         print("** class name missing **")
@@ -75,7 +86,7 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, argv):
         """Prints all string representation of all instances based or not
         based on the class name"""
-        arg_list = argv.split()
+        arg_list = split(argv)
         objects = self.storage.all().values()
         if not arg_list:
             print([str(obj) for obj in objects])
