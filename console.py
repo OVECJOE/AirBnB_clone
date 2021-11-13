@@ -33,7 +33,9 @@ def check_args(args):
 
 
 class HBNBCommand(cmd.Cmd):
-    """The class that implements the console for the AirBnB clone web application"""
+    """The class that implements the console
+    for the AirBnB clone web application
+    """
     prompt = "(hbnb) "
     storage = models.storage
 
