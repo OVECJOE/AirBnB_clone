@@ -54,7 +54,7 @@ class HBNBCommand(cmd.Cmd):
         """Command to executed when empty line + <ENTER> key"""
         pass
 
-    def do_EOF(self):
+    def do_EOF(self, argv):
         """Command to be executed when Ctrl-c (EOF) is entered"""
         print("")
         return True
@@ -73,7 +73,8 @@ class HBNBCommand(cmd.Cmd):
     def do_show(self, argv):
         """Prints the string representation of an instance based
         on the class name and id"""
-        if (args := check_args(argv)) is not None:
+        args = check_args(argv)
+        if args:
             if len(args) != 2:
                 print("** instance id missing **")
             else:
@@ -99,7 +100,8 @@ class HBNBCommand(cmd.Cmd):
 
     def do_destroy(self, argv):
         """Delete a class instance based on the name and given id."""
-        if (arg_list := check_args(argv)) is not None:
+        arg_list = check_args(argv)
+        if arg_list:
             if len(arg_list) == 1:
                 print("** instance id missing **")
             else:
@@ -113,7 +115,8 @@ class HBNBCommand(cmd.Cmd):
     def do_update(self, argv):
         """Updates an instance based on the class name and id by adding or
         updating attribute and save it to the JSON file."""
-        if (arg_list := check_args(argv)) is not None:
+        arg_list = check_args(argv)
+        if arg_list:
             if len(arg_list) == 1:
                 print("** instance id missing **")
             else:
