@@ -29,8 +29,8 @@ class TestFileStorage(unittest.TestCase):
         """Checks that dummy_storage.all() works as expected"""
         new = BaseModel()
         self.dummy_storage.new(new)
-        self.assertEqual(self.dummy_storage.all()["BaseModel.{}".format(new.id)],
-                         new)
+        self.assertEqual(self.dummy_storage.all()
+                         ["BaseModel.{}".format(new.id)], new)
         del self.dummy_storage.all()["BaseModel.{}".format(new.id)]
 
     def test_that_the_storage_variable_has_been_declared(self):
