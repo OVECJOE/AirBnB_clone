@@ -6,7 +6,7 @@
 
 ## DESCRIPTION
 
-**AhBnB** is a *complete web application*, integrating database storage, a back-end API, and front-end interface.
+**AirBnB** is a *complete web application*, integrating database storage, a back-end API, and front-end interface.
 
 ### Data Diagram
 
