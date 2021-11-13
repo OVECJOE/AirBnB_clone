@@ -28,9 +28,10 @@ class TestBaseModel(unittest.TestCase):
         Checks if the string representation is appropriate
         """
         b = BaseModel()
-        self.assertEqual(str(b), f"[BaseModel] ({b.id}) {b.__dict__}")
+        self.assertEqual(str(b),
+                         "[BaseModel] ({}) {}".format(b.id, b.__dict__))
 
-    def test_id_is_unique(self):
+    def test_ids_is_unique(self):
         """
         Checks if id is generated randomly and uniquely
         """
@@ -74,7 +75,7 @@ class TestBaseModel(unittest.TestCase):
         b.save()
         self.assertNotEqual(b.created_at, b.updated_at)
         self.assertGreater(b.updated_at.microsecond,
-                           b.created_at.microsecond, "Greater!")
+                           b.created_at.microsecond)
 
     def test_if_to_dict_returns_dict(self):
         """
@@ -160,11 +161,12 @@ class TestBaseModel(unittest.TestCase):
                    "name": "Firdaus"}
         b = BaseModel(**my_dict)
         self.assertTrue(b not in models.storage.all().values(),
-                        f"{models.storage.all().values()}")
+                        "{}".format(models.storage.all().values()))
         del b
 
         b = BaseModel()
         self.assertTrue(b in models.storage.all().values())
+
 
 if __name__ == "__main__":
     unittest.main()
