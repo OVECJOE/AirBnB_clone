@@ -21,7 +21,7 @@ class BaseModel:
         # super().__init__()
         # self.id = str(uuid4())
         # self.created_at = self.updated_at = datetime.now()
-        # something doesn't add up here. 
+        # something doesn't add up here.
 
         if not kwargs:
             self.id = str(uuid4())
