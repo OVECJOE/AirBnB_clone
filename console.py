@@ -13,7 +13,7 @@ from models.state import State
 from models.review import Review
 
 # A global constant since both functions within and outside uses it.
-CLASSES = [
+__CLASSES = [
     "BaseModel",
     "User",
     "City",
@@ -37,7 +37,7 @@ def check_args(args):
 
     if len(arg_list) == 0:
         print("** class name missing **")
-    elif arg_list[0] not in CLASSES:
+    elif arg_list[0] not in __CLASSES:
         print("** class doesn't exist **")
     else:
         return arg_list
@@ -93,7 +93,7 @@ class HBNBCommand(cmd.Cmd):
         if not arg_list:
             print([str(obj) for obj in objects])
         else:
-            if arg_list[0] not in CLASSES:
+            if arg_list[0] not in __CLASSES:
                 print("** class doesn't exist **")
             else:
                 print([str(obj) for obj in objects
