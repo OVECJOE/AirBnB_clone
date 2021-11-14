@@ -18,18 +18,25 @@ class BaseModel:
         Initialize the BaseModel class
         """
 
-        super().__init__()
-        self.id = str(uuid4())
-        self.created_at = self.updated_at = datetime.now()
+        # super().__init__()
+        # self.id = str(uuid4())
+        # self.created_at = self.updated_at = datetime.now()
+        # something doesn't add up here. 
 
         if not kwargs:
+            self.id = str(uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
             models.storage.new(self)
 
-        for k, v in kwargs.items():
-            if k == "created_at" or k == "updated_at":
-                v = datetime.strptime(v, "%Y-%m-%dT%H:%M:%S.%f")
-            if k != "__class__":
-                setattr(self, k, v)
+        else:
+            for k, v in kwargs.items():
+                if k == "created_at" or k == "updated_at":
+                    v = datetime.strptime(v, "%Y-%m-%dT%H:%M:%S.%f")
+                elif k != "__class__":
+                    pass
+                else:
+                    setattr(self, k, v)
 
     def __str__(self):
         """
@@ -44,6 +51,7 @@ class BaseModel:
         Updates 'self.updated_at' with the current datetime
         """
         self.updated_at = datetime.now()
+        model.storage.new(self)
         models.storage.save()
 
     def to_dict(self):
