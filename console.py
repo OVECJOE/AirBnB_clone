@@ -12,6 +12,17 @@ from models.place import Place
 from models.state import State
 from models.review import Review
 
+# A global constant since both functions within and outside uses it.
+CLASSES = [
+    "BaseModel",
+    "User",
+    "City",
+    "Place",
+    "State",
+    "Amenity",
+    "Review"
+]
+
 
 def check_args(args):
     """checks if args is valid
@@ -23,15 +34,6 @@ def check_args(args):
         Error message if args is None or not a valid class, else the arguments
     """
     arg_list = split(args)
-    CLASSES = [
-        "BaseModel",
-        "User",
-        "City",
-        "Place",
-        "State",
-        "Amenity",
-        "Review"
-    ]
 
     if len(arg_list) == 0:
         print("** class name missing **")
@@ -47,15 +49,6 @@ class HBNBCommand(cmd.Cmd):
     """
     prompt = "(hbnb) "
     storage = models.storage
-    CLASSES = [
-        "BaseModel",
-        "User",
-        "City",
-        "Place",
-        "State",
-        "Amenity",
-        "Review"
-    ]
 
     def emptyline(self):
         """Command to executed when empty line + <ENTER> key"""
