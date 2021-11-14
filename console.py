@@ -128,19 +128,12 @@ class HBNBCommand(cmd.Cmd):
                     elif len(arg_list) == 3:
                         print("** value missing **")
                     else:
-                        objdict = self.storage.all()
-                        # obj = self.storage.all()[instance_id]
-                        # if arg_list[2] in type(obj).__dict__:
-                        #     v_type = type(obj.__class__.__dict__[arg_list[2]])
-                        #     setattr(obj, arg_list[2], v_type(arg_list[3]))
-                        # else:
-                        #     setattr(obj, arg_list[2], arg_list[3])
-                        obj = objdict["{}.{}".format(arg_list[0], arg_list[1])]
-                        if arg_list[2] in obj.__class__.__dict__.keys():
-                            valtype = type(obj.__class__.__dict__[arg_list[2]])
-                            obj.__dict__[arg_list[2]] = valtype(arg_list[3])
+                        obj = self.storage.all()[instance_id]
+                        if arg_list[2] in type(obj).__dict__:
+                            v_type = type(obj.__class__.__dict__[arg_list[2]])
+                            setattr(obj, arg_list[2], v_type(arg_list[3]))
                         else:
-                            obj.__dict__[arg_list[2]] = arg_list[3]
+                            setattr(obj, arg_list[2], arg_list[3])
 
             self.storage.save()
 
