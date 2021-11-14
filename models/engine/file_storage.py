@@ -1,5 +1,9 @@
 #!/usr/bin/python3
-"""Contains the FileStorage class"""
+"""
+Contains the FileStorage class model
+
+
+"""
 import json
 import os
 
@@ -29,25 +33,46 @@ class FileStorage:
 
     def new(self, obj):
         """
-        sets in __objects the obj with key <obj class name>.id
+        sets in __objects the `obj` with key <obj class name>.id
         """
-        self.__objects["{}.{}".format(type(obj).__name__, obj.id)] = obj
+        # self.__objects["{}.{}".format(type(obj).__name__, obj.id)] = obj
+        # -> I think this structure is incorrect
+        self.__objects.update({"{}.{}".format(obj.__class__.__name__,
+                                              obj.id): obj})
 
     def save(self):
         """
         Serialize __objects to the JSON file
         """
-        dict_storage = {k: self.__objects[k].to_dict() for k in self.__objects}
-        with open(self.__file_path, "w", encoding="utf-8") as f:
+        # dict_storage = {k: self.__objects[k].to_dict() for k in self.__objects}
+        # with open(self.__file_path, mode="w", encoding="utf-8") as f:
+        #     json.dump(dict_storage, f)
+        # i have not clearly understood your save() there
+
+        dict_storage = {}
+        with open(self.__file_path, mode="w") as f:
+            for k, v in self.__objects.items():
+                dict_storage[k] = v.to_dict()
             json.dump(dict_storage, f)
 
     def reload(self):
         """
         Deserializes the JSON file to __objects
+        -> Only IF it exists!
         """
-        try:
-            with open(self.__file_path, encoding="utf-8") as f:
-                for obj in json.load(f).values():
-                    self.new(eval(obj["__class__"])(**obj))
-        except FileNotFoundError:
-            pass
+        # try:
+        #     with open(self.__file_path, encoding="utf-8") as f:
+        #         for obj in json.load(f).values():
+        #             self.new(eval(obj["__class__"])(**obj))
+        # except FileNotFoundError:
+        #     pass
+
+        # This code is very correct, but the question says 
+        # NO EXCEPTION SHOULD BE RAISED. Let's change it
+
+        if os.path.exists(self.__file_path):
+            with open(self.__file_path, mode="r") as f:
+                read_file = json.load(f)
+                for v in read_file.value():
+                    a = eval("{}(**v)".format(v["__class__"]))
+                    self.new(a)
