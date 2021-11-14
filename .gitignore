@@ -1,6 +1,7 @@
 # intranet test files
 test_base_model.py
 test_base_model_dict.py
+test_save_reload_base_model.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
