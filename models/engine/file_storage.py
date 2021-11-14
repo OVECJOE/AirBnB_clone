@@ -38,17 +38,12 @@ class FileStorage:
         # self.__objects["{}.{}".format(type(obj).__name__, obj.id)] = obj
         # -> I think this structure is incorrect
         FileStorage.__objects.update({"{}.{}".format(obj.__class__.__name__,
-                                              obj.id): obj})
+                                                     obj.id): obj})
 
     def save(self):
         """
         Serialize __objects to the JSON file
         """
-        # dict_storage = {k: self.__objects[k].to_dict() for k in self.__objects}
-        # with open(self.__file_path, mode="w", encoding="utf-8") as f:
-        #     json.dump(dict_storage, f)
-        # i have not clearly understood your save() there
-
         dict_storage = {}
         with open(self.__file_path, mode="w") as f:
             for k, v in FileStorage.__objects.items():
