@@ -60,19 +60,19 @@ class FileStorage:
         Deserializes the JSON file to __objects
         -> Only IF it exists!
         """
-        # try:
-        #     with open(self.__file_path, encoding="utf-8") as f:
-        #         for obj in json.load(f).values():
-        #             self.new(eval(obj["__class__"])(**obj))
-        # except FileNotFoundError:
-        #     pass
+        try:
+            with open(self.__file_path, encoding="utf-8") as f:
+                for obj in json.load(f).values():
+                    self.new(eval(obj["__class__"])(**obj))
+        except FileNotFoundError:
+            pass
 
         # This code is very correct, but the question says 
         # NO EXCEPTION SHOULD BE RAISED. Let's change it
 
-        if os.path.exists(self.__file_path):
-            with open(self.__file_path, mode="r") as f:
-                read_file = json.load(f)
-                for v in read_file.value():
-                    a = eval("{}(**v)".format(v["__class__"]))
-                    self.new(a)
+        # if os.path.exists(self.__file_path):
+        #     with open(self.__file_path, mode="r") as f:
+        #         read_file = json.load(f)
+        #         for v in read_file.value():
+        #             a = eval("{}(**v)".format(v["__class__"]))
+        #             self.new(a)
