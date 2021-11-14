@@ -57,19 +57,19 @@ class BaseModel:
         object
         """
 
-        attr_set = {k: v for k, v in self.__dict__.items()
-                    if not k.startswith('_')}
-        attr_set["__class__"] = type(self).__name__
-        attr_set["created_at"] = attr_set["created_at"].isoformat()
-        attr_set["updated_at"] = attr_set["updated_at"].isoformat()
-        return attr_set
+        # attr_set = {k: v for k, v in self.__dict__.items()
+        #             if not k.startswith('_')}
+        # attr_set["__class__"] = type(self).__name__
+        # attr_set["created_at"] = attr_set["created_at"].isoformat()
+        # attr_set["updated_at"] = attr_set["updated_at"].isoformat()
+        # return attr_set
 
         # -> instead of changing an argument at a time,
         # we can use an if statement to do it all at once
-        # dict_1 = self.__dict__.copy()
-        # dict_1["__class__"] = self.__class__.__name__
-        # for k, v in self.__dict__.items():
-        #     if k in ["created_at", "updated_at"]:
-        #         v = self.__dict__[k].isoformat()
-        #         dict_1[k] = v
-        # return dict_1
+        dict_1 = self.__dict__.copy()
+        dict_1["__class__"] = self.__class__.__name__
+        for k, v in self.__dict__.items():
+            if k in ["created_at", "updated_at"]:
+                v = self.__dict__[k].isoformat()
+                dict_1[k] = v
+        return dict_1

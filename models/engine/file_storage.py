@@ -29,7 +29,7 @@ class FileStorage:
         """
         Returns the dictionary __objects
         """
-        return self.__objects
+        return FileStorage.__objects
 
     def new(self, obj):
         """
@@ -37,7 +37,7 @@ class FileStorage:
         """
         # self.__objects["{}.{}".format(type(obj).__name__, obj.id)] = obj
         # -> I think this structure is incorrect
-        self.__objects.update({"{}.{}".format(obj.__class__.__name__,
+        FileStorage.__objects.update({"{}.{}".format(obj.__class__.__name__,
                                               obj.id): obj})
 
     def save(self):
@@ -51,7 +51,7 @@ class FileStorage:
 
         dict_storage = {}
         with open(self.__file_path, mode="w") as f:
-            for k, v in self.__objects.items():
+            for k, v in FileStorage.__objects.items():
                 dict_storage[k] = v.to_dict()
             json.dump(dict_storage, f)
 
@@ -66,13 +66,3 @@ class FileStorage:
                     self.new(eval(obj["__class__"])(**obj))
         except FileNotFoundError:
             pass
-
-        # This code is very correct, but the question says 
-        # NO EXCEPTION SHOULD BE RAISED. Let's change it
-
-        # if os.path.exists(self.__file_path):
-        #     with open(self.__file_path, mode="r") as f:
-        #         read_file = json.load(f)
-        #         for v in read_file.value():
-        #             a = eval("{}(**v)".format(v["__class__"]))
-        #             self.new(a)
