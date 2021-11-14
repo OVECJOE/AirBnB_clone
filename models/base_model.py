@@ -39,10 +39,10 @@ class BaseModel:
         return "[{}] ({}) {}".format(type(self).__name__, self.id,
                                      self.__dict__)
 
-        def save(self):
-            """
-            Updates 'self.updated_at' with the current datetime
-            """
+    def save(self):
+        """
+        Updates 'self.updated_at' with the current datetime
+        """
         self.updated_at = datetime.now()
         models.storage.save()
 
