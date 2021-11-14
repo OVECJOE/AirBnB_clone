@@ -41,8 +41,8 @@ class BaseModel:
 
         def save(self):
             """
-        Updates 'self.updated_at' with the current datetime
-        """
+            Updates 'self.updated_at' with the current datetime
+            """
         self.updated_at = datetime.now()
         models.storage.save()
 
