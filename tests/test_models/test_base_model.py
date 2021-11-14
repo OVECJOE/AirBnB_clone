@@ -61,7 +61,7 @@ class TestBaseModel(unittest.TestCase):
         """
         b = BaseModel()
         self.assertTrue(type(b.updated_at) is datetime)
-    
+
     def test_two_models_different_created_at(self):
         """
         Checks that the attribute 'created_at' of 2 models are different
@@ -71,7 +71,7 @@ class TestBaseModel(unittest.TestCase):
         b2 = BaseModel()
         sleep(0.02)
         self.assertLess(b1.created_at, b2.created_at)
-    
+
     def test_args_unused(self):
         """
         Checks that the attribute 'args' is not used.
@@ -158,7 +158,7 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(b.updated_at,
                          datetime.strptime(my_dict["updated_at"],
                                            "%Y-%m-%dT%H:%M:%S.%f"))
-    
+
     def test_when_args_and_kwargs_are_passed(self):
         """
         When args and kwargs are passed, BaseModel should ignore args
@@ -196,7 +196,7 @@ class TestBaseModel(unittest.TestCase):
 
         b = BaseModel()
         self.assertTrue(b in models.storage.all().values())
-    
+
     def test_that_save_method_updates_updated_at_attr(self):
         """
         Checks that save() method updates 'updated_at' attribute
@@ -206,7 +206,7 @@ class TestBaseModel(unittest.TestCase):
         temp_update = b.updated_at
         b.save()
         self.assertLess(temp_update, b.updated_at)
-    
+
     def test_that_save_can_update_two_or_more_times(self):
         """
         Tests that the save method updates 'updated_at' two times
@@ -222,7 +222,6 @@ class TestBaseModel(unittest.TestCase):
         b.save()
         self.assertLess(temp1_update, b.updated_at)
 
-    
     def test_save_update_file(self):
         """
         Tests if file is updated when the 'save' is called
@@ -232,7 +231,7 @@ class TestBaseModel(unittest.TestCase):
         bid = "BaseModel.{}".format(b.id)
         with open("file.json", encoding="utf-8") as f:
             self.assertIn(bid, f.read())
-    
+
     def test_that_to_dict_contains_correct_keys(self):
         """
         Checks whether to_dict() returns the expected key
@@ -241,7 +240,7 @@ class TestBaseModel(unittest.TestCase):
         attrs = ("id", "created_at", "updated_at", "__class__")
         for attr in attrs:
             self.assertIn(attr, b_dict)
-    
+
     def test_to_dict_contains_added_attributes(self):
         """
         Checks that new attributes are also returned by to_dict()
@@ -253,7 +252,7 @@ class TestBaseModel(unittest.TestCase):
         attrs.extend(["name", "email"])
         for attr in attrs:
             self.assertIn(attr, b.to_dict())
-    
+
     def test_to_dict_output(self):
         """
         Checks the output returned by to_dict()
@@ -269,7 +268,7 @@ class TestBaseModel(unittest.TestCase):
             '__class__': 'BaseModel'
         }
         self.assertDictEqual(test_dict, b.to_dict())
-    
+
     def test_to_dict_with_args(self):
         """
         Checks that TypeError is returned when argument is passed to to_dict()
