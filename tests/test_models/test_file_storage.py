@@ -11,7 +11,8 @@ from models.base_model import BaseModel
 class TestFileStorage(unittest.TestCase):
     """Contains test cases against the FileStorage class"""
 
-    def setUp(self) -> None:
+    @classmethod
+    def setUp(self):
         self.dummy_storage = FileStorage()
 
     def test_file_path_and_objects_are_a_not_public(self):
@@ -36,3 +37,7 @@ class TestFileStorage(unittest.TestCase):
     def test_that_the_storage_variable_has_been_declared(self):
         """Checks that storage has been declared in models/__init__.py"""
         self.assertTrue(type(models.storage) is FileStorage)
+
+
+if __name__ == "__main__":
+    unittest.main()
