@@ -60,4 +60,4 @@ class FileStorage:
                 for obj in json.load(f).values():
                     self.new(eval(obj["__class__"])(**obj))
         except FileNotFoundError:
-            pass
+            return
