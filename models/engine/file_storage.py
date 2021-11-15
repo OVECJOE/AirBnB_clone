@@ -29,15 +29,13 @@ class FileStorage:
         """
         Returns the dictionary __objects
         """
-        return FileStorage.__objects
+        return self.__objects
 
     def new(self, obj):
         """
         sets in __objects the `obj` with key <obj class name>.id
         """
-        # self.__objects["{}.{}".format(type(obj).__name__, obj.id)] = obj
-        # -> I think this structure is incorrect
-        FileStorage.__objects.update({"{}.{}".format(obj.__class__.__name__,
+        self.__objects.update({"{}.{}".format(obj.__class__.__name__,
                                                      obj.id): obj})
 
     def save(self):
@@ -46,7 +44,7 @@ class FileStorage:
         """
         dict_storage = {}
         with open(self.__file_path, mode="w") as f:
-            for k, v in FileStorage.__objects.items():
+            for k, v in self.__objects.items():
                 dict_storage[k] = v.to_dict()
             json.dump(dict_storage, f)
 
