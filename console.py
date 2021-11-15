@@ -134,6 +134,8 @@ class HBNBCommand(cmd.Cmd):
                             setattr(obj, arg_list[2], v_type(arg_list[3]))
                         else:
                             setattr(obj, arg_list[2], arg_list[3])
+                else:
+                    print("** no instance found **")
 
             self.storage.save()
 
