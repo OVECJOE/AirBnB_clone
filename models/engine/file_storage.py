@@ -34,19 +34,16 @@ class FileStorage:
         """
         sets in __objects the `obj` with key <obj class name>.id
         """
-        self.__objects["{}.{}".format(type(obj).__name__, obj.id)] = obj
-        # -> I think this structure is incorrect
-        # self.__objects.update({"{}.{}".format(obj.__class__.__name__,
-        #                                       obj.id): obj})
+        self.__objects["{}.{}".format(obj.__class__.__name__, obj.id)] = obj
 
     def save(self):
         """
         Serialize __objects to the JSON file
         """
-        dict_storage = {}
-        for k, v in self.__objects.items():
-            dict_storage[k] = v.to_dict()
         with open(self.__file_path, mode="w") as f:
+            dict_storage = {}
+            for k, v in self.__objects.items():
+                dict_storage[k] = v.to_dict()
             json.dump(dict_storage, f)
 
     def reload(self):

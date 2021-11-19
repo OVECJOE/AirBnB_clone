@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """Test Suite for FileStorage in models/file_storage.py"""
 import os.path
-from typing import Type
 import unittest
 
 import models

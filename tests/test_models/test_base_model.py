@@ -2,7 +2,6 @@
 """
 A module that contains the test suite for the BaseModel class
 """
-from typing import Type
 import unittest
 from time import sleep
 import os
