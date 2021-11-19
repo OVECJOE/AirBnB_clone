@@ -276,7 +276,7 @@ class TestBaseModel(unittest.TestCase):
         b = BaseModel()
         with self.assertRaises(TypeError):
             b.to_dict(None)
-    
+
     def test_to_dict_not_dunder_dict(self):
         """Checks that to_dict() is a dict object not equal to __dict__"""
         bm = BaseModel()

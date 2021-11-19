@@ -110,7 +110,7 @@ class TestStorageMethods(unittest.TestCase):
         # TypeError, we need you here!
         with self.assertRaises(TypeError):
             models.storage.new(BaseModel(), 1)
-        
+
         # What if None was passed? That guy needs learn a lesson...
         # AttributeError, will you join us?
         with self.assertRaises(AttributeError):
@@ -137,11 +137,11 @@ class TestStorageMethods(unittest.TestCase):
             self.assertIn("City." + dummy_city.id, save_text)
             self.assertIn("Amenity." + dummy_amenity.id, save_text)
             self.assertIn("Review." + dummy_review.id, save_text)
-    
+
         # What happens when an arg is passed? TypeError has been my agent!
         with self.assertRaises(TypeError):
             models.storage.save(None)
-    
+
     def test_reload_method(self):
         """Tests the reload method... Quite tricky!"""
         dummy_bm = BaseModel()
