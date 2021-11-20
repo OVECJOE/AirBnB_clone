@@ -73,12 +73,3 @@ This repository contains the following files:
 | models/engine/ | file_storage.py | Serializes instances to a JSON file and deserializes JSON file to instances |
 | To be updated |
 
-<!-- ## CONTRIBUTION
-
-To contribute to this project:
-
-- Clone the repo using `git clone git@github.com:OVECJOE/AirBnB_clone.git`,
-- `cd AirBnB_clone`,
-- Create a branch to isolate changes and prevent possible complications... This can be done using `git branch <your choice name>`,
-- checkout into the branch created above using the command `git checkout <your choice name>`,
-- You are free to change the world now :smile:. Good Luck! -->
