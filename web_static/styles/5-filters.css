@@ -19,32 +19,17 @@ section.filters button {
 section.filters button:hover {
     opacity: 90%;
 }
-section.filters div.locations {
+section.filters div.locations, section.filters div.amenities {
     height: 100%;
     width: 25%;
     border-right: 1px solid #DDDDDD;
-    margin-left: 50px;
+    
 }
-div.locations h3 {
+div.locations h3, div.amenities h3  {
     font-weight: 600;
     margin-bottom: 0px;
 }
-div.locations h4 {
-    font-weight: 400;
-    font-size: 14px;
-    margin: 4px auto;
-}
-section.filters div.amenities {
-    height: 100%;
-    width: 25%;
-    margin-left: 50px;
-    margin-right: auto;
-}
-div.amenities h3 {
-    font-weight: 600;
-    margin-bottom: 0px;
-}
-div.amenities h4 {
+div.locations h4, div.amenities h4 {
     font-weight: 400;
     font-size: 14px;
     margin: 4px auto;
